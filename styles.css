@@ -1,0 +1,181 @@
+/* goodfiles.eu — retro 8-bit landing page */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #004AAD;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Disable ligatures/contextual alternates so pixel glyphs stay distinct */
+.gf-pixel-text {
+  font-variant-ligatures: none;
+  -webkit-font-feature-settings: "liga" 0, "calt" 0;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+
+@keyframes gf-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #004AAD;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 4px 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Top bar ---- */
+.topbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  padding: 16px clamp(20px, 4vw, 40px);
+}
+
+.about {
+  position: relative;
+}
+
+.about-trigger {
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  color: #fff;
+  padding: 6px 4px;
+}
+
+.about-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 6px;
+  width: min(280px, 70vw);
+  background: #fff;
+  border: 2px solid #000;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4);
+  padding: 14px 16px;
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  line-height: 1.3;
+  color: #000;
+  z-index: 6;
+}
+
+.about-panel[hidden] {
+  display: none;
+}
+
+/* ---- Content ---- */
+.content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(28px, 5vw, 72px);
+}
+
+.content-inner {
+  width: min(760px, 100%);
+  text-align: left;
+}
+
+.logo {
+  height: clamp(44px, 5.6vw, 68px);
+  width: auto;
+  display: block;
+  margin-bottom: clamp(26px, 3.6vw, 38px);
+}
+
+.headline {
+  margin: 0;
+  color: #fff;
+  font-family: 'Press Start 2P', monospace;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  font-size: clamp(1.05rem, 2.6vw, 1.9rem);
+  text-wrap: balance;
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.42em;
+  height: 0.86em;
+  background: #fff;
+  margin-left: 0.08em;
+  transform: translateY(0.1em);
+  animation: gf-blink 1s steps(1) infinite;
+}
+
+/* ---- CTA ---- */
+.cta {
+  margin-top: clamp(30px, 4vw, 44px);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.contact-btn {
+  appearance: none;
+  cursor: pointer;
+  background: #fff;
+  color: #000;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(11px, 1.1vw, 14px);
+  letter-spacing: 0.02em;
+  padding: clamp(13px, 1.4vw, 17px) clamp(24px, 2.4vw, 36px);
+  border: 2px solid #000;
+  border-radius: 12px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+  line-height: 1;
+  transition: none;
+}
+
+/* Hover: invert + subtle "pressed" shift */
+.contact-btn:hover {
+  background: #000;
+  color: #fff;
+  transform: translate(1px, 1px);
+}
+
+/* Copied state: same invert, held via JS class (overrides hover shift) */
+.contact-btn.copied {
+  background: #000;
+  color: #fff;
+  transform: none;
+}
+
+.contact-hint {
+  font-family: 'VT323', monospace;
+  font-size: 18px;
+  color: #fff;
+  opacity: 0.85;
+}
+
+/* ---- Footer ---- */
+.footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 0 clamp(18px, 2.5vw, 26px);
+  font-family: 'VT323', monospace;
+  font-size: 15px;
+  color: #fff;
+  opacity: 0.75;
+}

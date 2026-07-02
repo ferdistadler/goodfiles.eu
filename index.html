@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>goodfiles.eu</title>
+  <meta name="description" content="The internet is full of bad files. None of them are here.">
+  <link rel="icon" type="image/png" href="assets/goodfiles-blue.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+
+    <!-- top bar: About only -->
+    <div class="topbar">
+      <div class="about">
+        <button id="about-trigger" class="about-trigger" aria-haspopup="true" aria-expanded="false">About</button>
+        <div id="about-panel" class="about-panel" hidden>
+          the coolest agency in europe.<br>(maybe in the world, we'll see)
+        </div>
+      </div>
+    </div>
+
+    <!-- content -->
+    <main class="content">
+      <div class="content-inner">
+        <img class="logo" src="assets/goodfiles-white.png" alt="goodfiles.eu">
+
+        <h1 class="headline gf-pixel-text">The internet is full of bad files.
+          None of them are here<span class="cursor" aria-hidden="true"></span></h1>
+
+        <div class="cta">
+          <button id="contact-btn" class="contact-btn gf-pixel-text">Contact</button>
+          <span id="contact-hint" class="contact-hint">click to copy our e-mail</span>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">© 2026 goodfiles.eu</footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

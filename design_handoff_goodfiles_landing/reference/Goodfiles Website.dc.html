@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#004AAD;}
+  @keyframes gf-blink { 0%,49%{opacity:1;} 50%,100%{opacity:0;} }
+  .gf-pixel-text{ font-variant-ligatures:none; -webkit-font-feature-settings:"liga" 0,"calt" 0; font-feature-settings:"liga" 0,"calt" 0; }
+</style>
+</helmet>
+<div style="position:relative; min-height:100vh; width:100%; box-sizing:border-box; background-color:#004AAD; background-image:radial-gradient(rgba(255,255,255,0.14) 1px, transparent 1px); background-size:4px 4px; font-family:'Pixelify Sans',sans-serif; display:flex; flex-direction:column;">
+
+  <!-- top bar: About only -->
+  <div style="position:relative; z-index:5; display:flex; align-items:center; padding:16px clamp(20px,4vw,40px);">
+    <div style="position:relative;">
+      <button onClick="{{ toggleAbout }}" style="appearance:none; background:none; border:none; cursor:pointer; font-family:'Press Start 2P',monospace; font-size:12px; color:#fff; padding:6px 4px;">About</button>
+      <sc-if value="{{ aboutOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; top:100%; left:0; margin-top:6px; width:min(280px,70vw); background:#fff; border:2px solid #000; box-shadow:5px 5px 0 rgba(0,0,0,0.4); padding:14px 16px; font-family:'VT323',monospace; font-size:18px; line-height:1.3; color:#000; z-index:6;">
+          the coolest agency in europe.<br>(maybe in the world, we'll see)
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <!-- content -->
+  <main style="position:relative; z-index:2; flex:1; display:flex; align-items:center; justify-content:center; padding:clamp(28px,5vw,72px); box-sizing:border-box;">
+    <div style="width:min(760px,100%); text-align:left;">
+      <img src="assets/goodfiles-white.png" alt="goodfiles.eu" style="height:clamp(44px,5.6vw,68px); width:auto; display:block; margin-bottom:clamp(26px,3.6vw,38px);">
+
+      <h1 class="gf-pixel-text" style="margin:0; color:#fff; font-family:'Press Start 2P',monospace; font-weight:400; line-height:1.5; letter-spacing:0; font-size:clamp(1.05rem,2.6vw,1.9rem); text-wrap:balance;">
+        The internet is full of bad files.
+        None of them are here<span style="display:inline-block; width:0.42em; height:0.86em; background:#fff; margin-left:0.08em; transform:translateY(0.1em); animation:gf-blink 1s steps(1) infinite;"></span>
+      </h1>
+
+      <div style="margin-top:clamp(30px,4vw,44px); display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
+        <button class="gf-pixel-text" ref="{{ btnRef }}" onClick="{{ copy }}" onMouseEnter="{{ onEnter }}" onMouseLeave="{{ onLeave }}" style="appearance:none; cursor:pointer; background:#fff; color:#000; font-family:'Press Start 2P',monospace; font-size:clamp(11px,1.1vw,14px); letter-spacing:0.02em; padding:clamp(13px,1.4vw,17px) clamp(24px,2.4vw,36px); border:2px solid #000; border-radius:12px; box-shadow:4px 4px 0 rgba(0,0,0,0.4); line-height:1;">
+          {{ btnLabel }}
+        </button>
+        <span style="font-family:'VT323',monospace; font-size:18px; color:#fff; opacity:0.85;">{{ hint }}</span>
+      </div>
+    </div>
+  </main>
+
+  <div style="position:relative; z-index:2; text-align:center; padding:0 0 clamp(18px,2.5vw,26px); font-family:'VT323',monospace; font-size:15px; color:#fff; opacity:0.75;">© 2026 goodfiles.eu</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:760},&quot;email&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ferdi@goodfiles.eu&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { copied: false, hovered: false, aboutOpen: false };
+
+  get email() { return this.props.email || 'hello@goodfiles.eu'; }
+
+  toggleAbout = () => this.setState(s => ({ aboutOpen: !s.aboutOpen }));
+
+  onEnter = () => this.setState({ hovered: true });
+  onLeave = () => this.setState({ hovered: false });
+
+  btnRef = (el) => { this.btnEl = el; this.applyBtn(); };
+  applyBtn() {
+    const el = this.btnEl; if (!el) return;
+    const { copied, hovered } = this.state;
+    const invert = copied || hovered;
+    el.style.background = invert ? '#000' : '#fff';
+    el.style.color = invert ? '#fff' : '#000';
+    el.style.transform = hovered && !copied ? 'translate(1px,1px)' : 'none';
+  }
+  componentDidMount() { this.applyBtn(); }
+  componentDidUpdate() { this.applyBtn(); }
+
+  copy = async () => {
+    const email = this.email;
+    try { await navigator.clipboard.writeText(email); }
+    catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (_) {}
+      document.body.removeChild(ta);
+    }
+    this.setState({ copied: true });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ copied: false }), 2600);
+  };
+
+  renderVals() {
+    const copied = this.state.copied;
+    return {
+      copy: this.copy,
+      onEnter: this.onEnter,
+      onLeave: this.onLeave,
+      btnRef: this.btnRef,
+      toggleAbout: this.toggleAbout,
+      aboutOpen: this.state.aboutOpen,
+      btnLabel: copied ? 'Copied \u2713' : 'Contact',
+      hint: copied ? 'e-mail copied to clipboard' : 'click to copy our e-mail',
+    };
+  }
+}
+</script>
+</body>
+</html>
