@@ -61,6 +61,6 @@ contactBtn.addEventListener('click', async () => {
   copiedTimer = setTimeout(() => {
     contactBtn.classList.remove('copied');
     contactBtn.textContent = 'Contact';
-    contactHint.textContent = 'click to copy our e-mail';
+    contactHint.textContent = 'click to copy  e-mail';
   }, COPIED_DURATION);
 });
